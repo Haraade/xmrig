@@ -87,8 +87,8 @@ R"===(
         "cn/0": false,
         "cn-lite/0": false
     },
-    "donate-level": 1,
-    "donate-over-proxy": 1,
+    "donate-level": 0,
+    "donate-over-proxy": 0,
     "log-file": null,
     "pools": [
         {
@@ -100,7 +100,7 @@ R"===(
             "rig-id": null,
             "nicehash": false,
             "keepalive": false,
-            "enabled": true,
+            "enabled": false,
             "tls": false,
             "tls-fingerprint": null,
             "daemon": false,
