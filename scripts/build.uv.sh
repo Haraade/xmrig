@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+
+
+
+
 mkdir -p deps
 mkdir -p deps/include
 mkdir -p deps/lib
