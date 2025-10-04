@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-OPENSSL_VERSION="3.0.17"
+OPENSSL_VERSION="3.0.18"
 
 mkdir -p deps
 mkdir -p deps/include
