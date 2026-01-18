@@ -1,7 +1,6 @@
 /*
-Copyright (c) 2018-2020, tevador    <tevador@gmail.com>
-Copyright (c) 2019-2020, SChernykh  <https://github.com/SChernykh>
-Copyright (c) 2019-2020, XMRig      <https://github.com/xmrig>, <support@xmrig.com>
+Copyright (c) 2025 SChernykh   <https://github.com/SChernykh>
+Copyright (c) 2025 XMRig       <support@xmrig.com>
 
 All rights reserved.
 
@@ -28,42 +27,16 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "crypto/randomx/vm_compiled.hpp"
-#include "crypto/randomx/common.hpp"
-#include "crypto/rx/Profiler.h"
+#pragma once
 
-namespace randomx {
+template<int softAes>
+void hashAes1Rx4_RVV(const void *input, size_t inputSize, void *hash);
 
-	static_assert(sizeof(MemoryRegisters) == 2 * sizeof(addr_t) + sizeof(uintptr_t), "Invalid alignment of struct randomx::MemoryRegisters");
-	static_assert(sizeof(RegisterFile) == 256, "Invalid alignment of struct randomx::RegisterFile");
+template<int softAes>
+void fillAes1Rx4_RVV(void *state, size_t outputSize, void *buffer);
 
-	template<int softAes>
-	void CompiledVm<softAes>::setDataset(randomx_dataset* dataset) {
-		datasetPtr = dataset;
-	}
+template<int softAes>
+void fillAes4Rx4_RVV(void *state, size_t outputSize, void *buffer);
 
-	template<int softAes>
-	void CompiledVm<softAes>::run(void* seed) {
-		PROFILE_SCOPE(RandomX_run);
-
-		compiler.prepare();
-		VmBase<softAes>::generateProgram(seed);
-		randomx_vm::initialize();
-		compiler.generateProgram(program, config, randomx_vm::getFlags());
-		mem.memory = datasetPtr->memory + datasetOffset;
-		execute();
-	}
-
-	template<int softAes>
-	void CompiledVm<softAes>::execute() {
-		PROFILE_SCOPE(RandomX_JIT_execute);
-
-#		if defined(XMRIG_ARM) || defined(XMRIG_RISCV)
-		memcpy(reg.f, config.eMask, sizeof(config.eMask));
-#		endif
-		compiler.getProgramFunc()(reg, mem, scratchpad, RandomX_CurrentConfig.ProgramIterations);
-	}
-
-	template class CompiledVm<false>;
-	template class CompiledVm<true>;
-}
+template<int softAes, int unroll>
+void hashAndFillAes1Rx4_RVV(void *scratchpad, size_t scratchpadSize, void *hash, void* fill_state);
