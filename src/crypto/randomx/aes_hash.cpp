@@ -75,7 +75,7 @@ void hashAes1Rx4(const void *input, size_t inputSize, void *hash)
 	}
 
 	if (xmrig::Cpu::info()->hasRISCV_Vector()) {
-		hashAes1Rx4_RVV<softAes>(input, inputSize, hash);
+		hashAes1Rx4_RVV(input, inputSize, hash);
 		return;
 	}
 #endif
@@ -86,7 +86,7 @@ void hashAes1Rx4(const void *input, size_t inputSize, void *hash)
 	rx_vec_i128 state0, state1, state2, state3;
 	rx_vec_i128 in0, in1, in2, in3;
 
-	//intial state
+	//initial state
 	state0 = rx_set_int_vec_i128(AES_HASH_1R_STATE0);
 	state1 = rx_set_int_vec_i128(AES_HASH_1R_STATE1);
 	state2 = rx_set_int_vec_i128(AES_HASH_1R_STATE2);
@@ -156,7 +156,7 @@ void fillAes1Rx4(void *state, size_t outputSize, void *buffer)
 	}
 
 	if (xmrig::Cpu::info()->hasRISCV_Vector()) {
-		fillAes1Rx4_RVV<softAes>(state, outputSize, buffer);
+		fillAes1Rx4_RVV(state, outputSize, buffer);
 		return;
 	}
 #endif
@@ -213,7 +213,7 @@ void fillAes4Rx4(void *state, size_t outputSize, void *buffer)
 	}
 
 	if (xmrig::Cpu::info()->hasRISCV_Vector()) {
-		fillAes4Rx4_RVV<softAes>(state, outputSize, buffer);
+		fillAes4Rx4_RVV(state, outputSize, buffer);
 		return;
 	}
 #endif
@@ -297,7 +297,7 @@ void hashAndFillAes1Rx4(void *scratchpad, size_t scratchpadSize, void *hash, voi
 	}
 
 	if (xmrig::Cpu::info()->hasRISCV_Vector()) {
-		hashAndFillAes1Rx4_RVV<softAes, unroll>(scratchpad, scratchpadSize, hash, fill_state);
+		hashAndFillAes1Rx4_RVV(scratchpad, scratchpadSize, hash, fill_state);
 		return;
 	}
 #endif
