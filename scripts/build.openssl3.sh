@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-OPENSSL_VERSION="3.0.19"
+OPENSSL_VERSION="3.0.20"
 
 mkdir -p deps
 mkdir -p deps/include
